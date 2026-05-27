@@ -50,19 +50,7 @@ public class Task {
 Anatomia Exata da Declaração:
 
 ```plaintext
-[O que o Java executa] ───> DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                                 │
-                                 ▼ (Retorna um objeto formatador configurado)
-                                 │
- [Onde ele armazena]   ───> FORMATTER
-                                 │
-                                 ▼ (Que é do tipo...)
-                                 │
- [Tipo da variável]    ───> DateTimeFormatter
-                                 │
-                                 ▼ (Com as propriedades...)
-                                 │
- [Modificadores]       ───> public static final
+ssss
 ```
 
 ---
