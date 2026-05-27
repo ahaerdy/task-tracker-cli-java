@@ -1,4 +1,4 @@
-## Projeto: Task Tracker CLI (Java)
+## Progresso - Task Tracker CLI (Java)
 
 ### Fase: Passo 2 — Criando o Modelo: `Task.java`
 
