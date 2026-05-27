@@ -1,13 +1,3 @@
-Compreendido perfeitamente! Vamos estruturar o `progresso.md` completo para todo o código do Passo 2 que você enviou, detalhando linha por linha o que está acontecendo e o motivo técnico de cada escolha de código.
-
-Notei uma mudança importante no seu código real em relação ao rascunho anterior: agora os atributos `createdAt` e `updatedAt` estão armazenados como **`String`** em vez de `LocalDateTime`, pois o formato textual já é gerado e fixado no momento em que a tarefa é criada ou modificada. Isso é ótimo para o que faremos a seguir (escrever o JSON).
-
-Aqui está o seu arquivo de documentação completo e super didático:
-
----
-
-# progresso.md
-
 ## Projeto: Task Tracker CLI (Java)
 
 ### Fase: Passo 2 — Criando o Modelo: `Task.java`
