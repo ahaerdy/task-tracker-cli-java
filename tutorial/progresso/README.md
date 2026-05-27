@@ -194,10 +194,106 @@ Como não utilizaremos bibliotecas externas (como Jackson ou Gson), a própria c
 * **Alinhamento de colunas (`%-45s` e `%-12s`)**: O sinal de menos `-` alinha o texto à esquerda, e o número define o tamanho mínimo da coluna.
 * Se a descrição tiver apenas 10 caracteres, o Java adicionará 35 espaços em branco logo após ela. Isso garante que as barras verticais (`|`) fiquem perfeitamente alinhadas no terminal como uma tabela, independentemente do tamanho do texto da tarefa.
 
+---
+
+Excelente! O Passo 3 é crucial porque introduz a cultura de **testes laboratoriais** no desenvolvimento de software. Em vez de construir o sistema inteiro às cegas para descobrir bugs só no final, criamos uma classe isolada (`Main`) para validar se a nossa fundação (`Task.java`) responde exatamente como esperado.
+
+Aqui está o arquivo `progresso.md` completo, ultra detalhado e didático para você documentar o seu avanço nesta etapa:
+
+---
+
+# progresso.md
+
+## Projeto: Task Tracker CLI (Java)
+
+### Fase: Passo 3 — Testando o Modelo `Task.java`
+
+Nesta etapa, criamos um ponto de entrada temporário para o programa através da classe `Main.java`. O objetivo é executar testes unitários manuais no console para estressar os métodos da classe `Task` (instanciação, encapsulamento, atualização automática de timestamps e escape de caracteres no JSON).
+
+---
+
+### 1. O Ponto de Entrada: `public static void main`
+
+Todo programa Java independente precisa de uma porta de entrada para saber por onde começar a execução.
+
+```java
+package tasktracker;
+
+public class Main {
+    public static void main(String[] args) {
+
+```
+
+* **`public static void main(String[] args)`**: É a assinatura padrão do método de inicialização do Java.
+* `public`: Permite que a máquina virtual Java (JVM) encontre e execute o método de fora.
+* `static`: Permite que o método seja chamado sem que a JVM precise criar um objeto da classe `Main` primeiro.
+* `void`: Significa que o método realiza tarefas, mas não retorna nenhum valor ao final.
+* `String[] args`: Um array de textos que permite passar parâmetros via terminal para o programa (muito importante mais para a frente no projeto).
+
 
 
 ---
 
-Prontinho! O arquivo `progresso.md` está mapeado de ponta a ponta. Pode salvá-lo no seu diretório de estudos.
+### 2. Anatomia dos Blocos de Teste
 
-Quando terminar de digitar todo o código do arquivo `Task.java` e estiver pronto para avançar para o **Passo 3** do tutorial, me chame!
+O script executa 5 cenários controlados para avaliar o comportamento do nosso modelo. Vamos destrinchar o que cada um valida nos bastidores:
+
+#### TESTE 1: Instanciação e Leitura de Atributos (Getters e `toString`)
+
+```java
+Task t1 = new Task(1, "Comprar leite");
+System.out.println(t1);                    
+System.out.println("ID: " + t1.getId());
+
+```
+
+* **O que acontece:** A palavra-chave `new` invoca o nosso **primeiro construtor**, injetando o ID e a descrição. O status padrão `"todo"` e os marcadores de tempo idênticos são calculados na hora.
+* **Mecanismo Oculto (`System.out.println(t1);`)**: Quando passamos um objeto direto para o `println`, o Java invoca automaticamente o método `.toString()` daquele objeto. Como reescrevemos esse método usando a etiqueta `@Override`, ele imprime a linha tabular com as colunas perfeitamente alinhadas pelo operador `%-45s`.
+* **Validação do Encapsulamento**: As linhas seguintes chamam os métodos `getId()`, `getDescription()`, etc. Isso prova que as portas de leitura (`getters`) estão funcionando para expor os dados que foram protegidos com o modificador `private`.
+
+#### TESTE 2 e 3: Mutação de Dados e Ciclo de Vida do Timestamp (`setters`)
+
+```java
+t1.setDescription("Comprar leite e ovos");
+System.out.println(t1);
+t1.setStatus("in-progress");
+
+```
+
+* **O que acontece:** O teste chama as portas de escrita (`setters`).
+* **Comportamento Esperado no Relógio:** No console, a data/hora de criação (`Criado:`) deve permanecer idêntica à do Teste 1, mas o campo (`Atualizado:`) precisa mudar para o segundo exato em que a alteração ocorreu. Isso valida que a linha interna dos nossos métodos `set` (`LocalDateTime.now().format(FORMATTER)`) está disparando corretamente.
+
+#### TESTE 4: Estrutura da Serialização JSON Manual
+
+```java
+System.out.println(t1.toJson());
+
+```
+
+* **O que acontece:** Invoca o método `.toJson()` criado no Passo 2.
+* **Mecanismo Oculto**: O método usa `String.format()` injetando as variáveis dentro das quebras de linha (`\n`) e aspas escapadas (`\"`). O resultado esperado é um bloco textual perfeitamente identado que simula a sintaxe de um dicionário JSON chave/valor.
+
+#### TESTE 5: Validação da Camada de Segurança (Método `escaparJson`)
+
+```java
+Task t2 = new Task(2, "Ler o livro \"Clean Code\"");
+System.out.println(t2.toJson());
+
+```
+
+* **O que acontece:** Esse é o teste de estresse mais inteligente do script. Ele insere uma String que já contém aspas internas.
+* **Mecanismo Oculto**: Ao chamar o método privado `.escaparJson(description)` dentro de `toJson()`, o Java executa a corrente de métodos `.replace()`.
+* **O Resultado Visual**: No console, o texto impresso deve aparecer como `"description": "Ler o livro \"Clean Code\""`. As barras invertidas extras provam que o JSON final não será corrompido, pois o interpretador saberá diferenciar as aspas do texto das aspas que delimitam o campo.
+
+---
+
+### 3. Diagnóstico e Resultados do Experimento
+
+Ao rodar o comando **Shift + F10** (no IntelliJ ou NetBeans) ou rodar via terminal, o console despeja o log estruturado.
+
+* Se as colunas saírem alinhadas, o `@Override toString()` passou.
+* Se os segundos mudarem dinamicamente nos testes 2 e 3, a reatividade do `updatedAt` passou.
+* Se as aspas do livro *Clean Code* vierem acompanhadas de uma barra invertida antes delas, o método `escaparJson()` passou.
+
+> **Status do Passo 3:** Modelo homologado e pronto para ser integrado às classes de persistência de arquivos!
+
