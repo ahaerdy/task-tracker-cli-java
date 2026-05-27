@@ -202,10 +202,6 @@ Aqui está o arquivo `progresso.md` completo, ultra detalhado e didático para v
 
 ---
 
-# progresso.md
-
-## Projeto: Task Tracker CLI (Java)
-
 ### Fase: Passo 3 — Testando o Modelo `Task.java`
 
 Nesta etapa, criamos um ponto de entrada temporário para o programa através da classe `Main.java`. O objetivo é executar testes unitários manuais no console para estressar os métodos da classe `Task` (instanciação, encapsulamento, atualização automática de timestamps e escape de caracteres no JSON).
