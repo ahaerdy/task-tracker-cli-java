@@ -49,9 +49,6 @@ public class Task {
 
 Anatomia Exata da Declaração:
 
-```plaintext
-ssss
-```
 
 ---
 
