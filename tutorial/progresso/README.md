@@ -25,6 +25,11 @@ public class Task {
 * **`import`**: Importa a biblioteca de tempo do Java.
 * **`public static final DateTimeFormatter FORMATTER`**: Cria uma constante universal acessível por todo o projeto. Ela define a "máscara" visual (`yyyy-MM-dd HH:mm:ss`) para que as datas fiquem fáceis de ler por humanos, impedindo o formato bruto do Java (ex: `2026-05-27T19:10:19`).
 
+```
+
+```
+
+
 ---
 
 ### 2. Atributos Privados (Campos de Dados)
@@ -41,6 +46,24 @@ public class Task {
 * **`private`**: Aplica o conceito de **Encapsulamento**. Protege os dados contra alterações acidentais de fora da classe.
 * **`String status`**: Armazenará os estados literais `"todo"`, `"in-progress"` ou `"done"`.
 * **`String createdAt` e `updatedAt**`: Guardam o texto da data e hora já devidamente formatado pela constante, facilitando a gravação direta em arquivos.
+
+Anatomia Exata da Declaração:
+
+```
+[O que o Java executa] ────> DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                                 │
+                                 ▼ (Retorna um objeto formatador configurado)
+                                 │
+[Onde ele armazena]   ────> FORMATTER
+                                 │
+                                 ▼ (Que é do tipo...)
+                                 │
+[Tipo da variável]    ────> DateTimeFormatter
+                                 │
+                                 ▼ (Com as propriedades...)
+                                 │
+[Modificadores]       ────> public static final
+```
 
 ---
 
