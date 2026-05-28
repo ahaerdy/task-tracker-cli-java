@@ -4,8 +4,6 @@
 
 Nesta etapa, construímos o modelo de dados que serve como alicerce do projeto. A classe `Task` define o comportamento e a estrutura de uma tarefa na memória, além de possuir os mecanismos para se auto-converter em texto JSON e exibir-se de forma organizada no terminal.
 
----
-
 ### 1. Estrutura Inicial e a Constante de Formatação
 
 ```java
@@ -56,8 +54,6 @@ Perfeito, Arthur. Entendi o contexto. Como se trata de um tutorial passo a passo
 
 Aqui está a continuação estruturada para o seu tutorial, mantendo exatamente o mesmo padrão didático, os comentários inline e o diagrama de fluxo que você usou no Passo 2:
 
----
-
 ### 2. Testando a Eestrutura: Main.java
 
 Para garantir que a nossa constante de formatação está funcionando corretamente antes de avançarmos para as regras de negócio das tarefas, criamos uma classe de teste temporária. A `Main.java` servirá para validar o comportamento do `FORMATTER` acessando-o diretamente, sem a necessidade de instanciar a classe `Task`.
@@ -106,8 +102,6 @@ public class Main {
 [Saída Convertida]   ───> "2026-05-28 13:53:32" (String pronta para o terminal)
 
 ```
-
----
 
 ### 3. Saída do Terminal (Output)
 
