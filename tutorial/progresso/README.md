@@ -555,7 +555,7 @@ Process finished with exit code 0
 #### Análise Crítica do Output:
 
 1. **O Efeito do Hífen (`-`)**: Sem o sinal de menos, o Java alinharia o texto à direita (encostando o título da tarefa na barra `|` e deixando os espaços vazios do lado esquerdo). O uso do `%-45s` garante a legibilidade natural de leitura ocidental (da esquerda para a direita).
-2. **Independência de ID**: Mesmo quando o ID salta de `1` dígito para `105` dígitos (empurrando o colchete de fechamento um pouco para o lado), a coluna da descrição absorve o impacto e mantém a barra vertical perfeitamente reta no mesmo alinhamento das linhas superiores.
+2. **Independência de ID**: Mesmo quando o ID salta de 1 dígito (`1`) para 3 dígitos (`105`) (empurrando o colchete de fechamento um pouco para o lado), a coluna da descrição absorve o impacto e mantém a barra vertical perfeitamente reta no mesmo alinhamento das linhas superiores.
 
 ---
 
