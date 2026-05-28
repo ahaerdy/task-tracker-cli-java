@@ -58,7 +58,7 @@ task-tracker/
 O modelo `Task` representa uma tarefa. É o alicerce de tudo — começamos por ele.
 
 > 🧪 **Fundamentos:**
-> Antes de aplicar o código abaixo, você pode conferir a análise detalhada da sintaxe, testes isolados e a anatomia das engrenagens deste módulo no nosso guia de [Fundamentos do Passo 2](./fundamentos/passo_2).
+> Antes de aplicar o código abaixo, você pode conferir a análise detalhada da sintaxe, testes isolados e a anatomia das engrenagens deste módulo no guia de [Fundamentos do Passo 2](./fundamentos/passo_2).
 
 ### 2.1 Criando o arquivo
 
