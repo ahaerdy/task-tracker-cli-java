@@ -108,8 +108,12 @@ public class Main {
 Ao compilar e executar o código acima, o resultado exibido no seu console será o seguinte:
 
 ```text
-Instância do Formatador: ParseCaseSensitive(Strict).Value(Year,4).Literal('-').Value(MonthOfYear,2).Literal('-').Value(DayOfMonth,2).Literal(' ').Value(HourOfDay,2).Literal(':').Value(MinuteOfHour,2).Literal(':').Value(SecondOfMinute,2)
-Data e Hora atual formatada: 2026-05-28 13:53:32
+/usr/lib/jvm/default-java/bin/java -javaagent:/snap/intellij-idea-community/762/lib/idea_rt.jar=35351 -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath /home/arthur/Downloads/Projetos/task-tracker/task-tracker/out/production/task-tracker tasktracker.Main
+
+Instância do Formatar: Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 'Value(HourOfDay,2)':'Value(MinuteOfHour,2)':'Value(SecondOfMinute,2)
+Data e Hora atual formatada: 2026-05-28 13:30:27
+
+Process finished with exit code 0
 
 ```
 
