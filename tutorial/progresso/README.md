@@ -73,7 +73,11 @@ public class Main {
         // java.time.LocalDateTime.now(): Captura a data e o horário exato do sistema neste instante
         // armazenando o resultado na variável 'agora' do tipo LocalDateTime
         java.time.LocalDateTime agora = java.time.LocalDateTime.now();
-        
+
+        // Imprime o objeto de data bruto no padrão ISO-8601 (ex: 2026-05-28T14:15:22.123456)
+        // Útil para contrastar a diferença entre a data nativa do Java e a versão que será formatada abaixo
+        System.out.println("Data e Hora atuais no formato bruto: " + agora);
+
         // agora.format(...): Aplica a máscara da nossa constante sobre o objeto de data atual
         // O Java processa o LocalDateTime e devolve uma String organizada no padrão "yyyy-MM-dd HH:mm:ss"
         String dataFormatada = agora.format(Task.FORMATTER);
@@ -146,8 +150,7 @@ A saída visualizada no console é uma String, mas ela representa a conversão t
 
 * **`Data e Hora atual formatada: 2026-05-28 13:30:27`**
 Este é o output real do processamento. Toda a mecânica descrita na árvore de regras acima serviu de fôrma para receber os dados brutos do sistema operacional e devolvê-los nesta linha de texto perfeitamente legível.
-* **`Process finished with exit code 0`**
-A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java executou todas as instruções da classe `Main`, da primeira à última linha, e foi encerrada sem disparar erros ou travar o sistema. O código `0` indica sucesso total.
+
 
 > 💡 **Nota:** Repare que a primeira linha do output exibe a estrutura interna (o "esqueleto" técnico) que o Java criou para o `DateTimeFormatter`. Já a segunda linha exibe o resultado real do processamento, transformando dados complexos de tempo em texto perfeitamente legível.
 
