@@ -326,8 +326,6 @@ Atualizado em: 2024-01-15 09:10:00
   }
 ```
 
-> ✅ Se aparecer algo parecido com isso, `Task.java` está funcionando perfeitamente!
-
 ---
 
 ## Passo 4 — Criando o Leitor/Escritor JSON: `JsonHandler.java` {#passo-4}
