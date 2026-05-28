@@ -50,9 +50,7 @@ public class Task {
  [Modificadores]       ───> public static final
 ```
 
----
-
-### 2. Testando a Estrutura: Main.java
+### 1.2. Testando a Estrutura: Main.java
 
 Para garantir que a nossa constante de formatação está funcionando corretamente antes de avançarmos para as regras de negócio das tarefas, criamos uma classe de teste temporária. A `Main.java` servirá para validar o comportamento do `FORMATTER` acessando-o diretamente, sem a necessidade de instanciar a classe `Task`.
 
@@ -108,9 +106,7 @@ public class Main {
 
 ```
 
----
-
-### 3. Saída do Terminal (Output)
+### 1.3. Saída do Terminal (Output)
 
 Ao compilar e executar o código acima no IntelliJ, o resultado exibido no seu console será o seguinte:
 
@@ -125,7 +121,7 @@ Process finished with exit code 0
 
 ```
 
-#### 3.1. Decodificando a Saída do Console
+### 1.3.1. Decodificando a Saída do Console
 
 Quando executamos o `System.out.println(Task.FORMATTER);`, o Java expõe as entranhas do objeto. Em vez de uma string simples, ele imprime a **árvore de regras estruturais** que montamos através da máscara.
 
@@ -150,14 +146,14 @@ Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 
 * **`Value(MinuteOfHour,2)`** ──> Representa o padrão **`mm`** (Minutos com 2 dígitos).
 * **`Value(SecondOfMinute,2)`** ──> Representa o padrão **`ss`** (Segundos com 2 dígitos).
 
-#### 3.2. Formato Bruto vs Formato Lapidado
+### 1.3.2. Formato Bruto vs Formato Lapidado
 
 * **`Data e Hora atuais no formato bruto: 2026-05-28T14:18:30.923079581`**
 Esta linha exibe o comportamento nativo do Java (ISO-8601). O caractere `T` separa rigidamente a data do horário, e o valor termina com a precisão máxima de nanossegundos do sistema operacional. Embora ideal para persistência em bancos de dados, é um formato poluído para telas de linha de comando.
 * **`Data e Hora atuais formatadas: 2026-05-28 14:18:30`**
 Este é o output real do processamento do nosso `FORMATTER`. Toda a mecânica descrita na árvore de regras serviu de fôrma para capturar os dados brutos e limpá-los, gerando uma linha de texto perfeitamente legível e padronizada.
 
-#### 3.3. Ciclo de Encerramento
+### 1.3.3. Ciclo de Encerramento
 
 * **`Process finished with exit code 0`**
 A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java executou todas as instruções da classe `Main`, da primeira à última linha, e foi encerrada com sucesso total, sem disparar exceções (`Exception`) ou travar a execução do sistema.
@@ -295,6 +291,143 @@ Como não utilizaremos bibliotecas externas (como Jackson ou Gson), a própria c
 
 * **Por que isso é necessário?** Se o usuário criar uma tarefa chamada: `Limpar o quarto antes de "jogar"`, as aspas em `"jogar"` quebrariam a sintaxe do arquivo JSON final. O método `.replace()` busca caracteres perigosos e adiciona barras de escape (`\"`), higienizando o texto e prevenindo erros na gravação e na leitura do arquivo.
 * **Atenção na Ordem**: A substituição da barra invertida (`\\`) deve vir **sempre primeiro**, caso contrário ela escaparia as próprias barras inseridas pelos replaces seguintes.
+
+### 5.1. Código de Implementação Mínimo para Teste
+
+Para validar a serialização manual e o comportamento do método de escape sem a complexidade do restante do projeto, estruturamos uma versão enxuta da classe `Task` (contendo apenas os atributos simulados e os métodos do JSON) e uma classe `Main` preparada para testar um cenário real com caracteres especiais.
+
+#### Classe Task.java (Módulos de Serialização)
+
+```java
+package tasktracker;
+
+public class Task {
+    // Atributos privados simulados para o teste de serialização
+    private int id;
+    private String description;
+    private String status;
+    private String createdAt;
+    private String updatedAt;
+
+    // Construtor minimalista para instanciar a tarefa diretamente no teste
+    public Task(int id, String description, String status, String createdAt, String updatedAt) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    // Método que traduz as propriedades do objeto para uma String formatada em JSON
+    public String toJson() {
+        return String.format(
+                "  {\n" +
+                "    \"id\": %d,\n" +
+                "    \"description\": \"%s\",\n" +
+                "    \"status\": \"%s\",\n" +
+                "    \"createdAt\": \"%s\",\n" +
+                "    \"updatedAt\": \"%s\"\n" +
+                "  }",
+                id,
+                escaparJson(description), // Aplica a higienização contra quebras de sintaxe
+                status,
+                createdAt,
+                updatedAt
+        );
+    }
+
+    // Método de segurança que neutraliza caracteres que danificariam a estrutura do JSON
+    private String escaparJson(String texto) {
+        if (texto == null) return "";
+        return texto
+                .replace("\\", "\\\\")  // Substitui a barra invertida por duas (DEVE ser o primeiro)
+                .replace("\"", "\\\"")  // Escapa aspas duplas internas para não fechar a string do JSON
+                .replace("\n", "\\n")   // Transforma quebras de linha reais em representações textuais
+                .replace("\r", "\\r");  // Transforma retornos de carro em representações textuais
+    }
+}
+
+```
+
+#### Classe Main.java (Invocação e Validação)
+
+```java
+package tasktracker;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== TESTANDO SERIALIZAÇÃO MANUAL E HIGIENIZAÇÃO JSON ===");
+
+        // Cenário de Teste: Descrição complexa contendo aspas e quebra de linha simulada (\n)
+        // O texto original simula o usuário digitando: Estudar Java com "foco"
+        //                                              Urgente!
+        String descricaoComConflito = "Estudar Java com \"foco\"\nUrgente!";
+
+        // Instancia uma tarefa com dados fictícios fixos e a descrição problemática
+        Task tarefaTeste = new Task(
+                1,
+                descricaoComConflito,
+                "todo",
+                "2026-05-28 14:00:00",
+                "2026-05-28 14:30:00"
+        );
+
+        // Dispara a conversão para texto JSON
+        String jsonResultado = tarefaTeste.toJson();
+
+        // Imprime o resultado final no terminal para checagem visual
+        System.out.println("\nJSON Gerado com Sucesso:");
+        System.out.println(jsonResultado);
+        
+        System.out.println("\n=======================================================");
+    }
+}
+
+```
+
+### 5.2. Anatomia do Fluxo de Higienização
+
+Quando a `Main` executa o método `toJson()`, a String de descrição passa por uma linha de montagem de substituições. É crucial entender a transformação do texto cru para o texto estéril:
+
+```text
+[Texto Original na Main] ──> Estudar Java com "foco"\nUrgente!
+                                      │
+                                      ▼ (.replace("\"", "\\\""))
+[Passo 1: Escapa Aspas]  ──> Estudar Java com \"foco\"\nUrgente!
+                                      │
+                                      ▼ (.replace("\n", "\\n"))
+[Passo 2: Escapa Quebra] ──> Estudar Java com \"foco\"\\nUrgente!
+                                      │
+                                      ▼ (Injetado dentro do molde String.format)
+[Resultado no JSON]      ──> "description": "Estudar Java com \"foco\"\\nUrgente!"
+
+```
+
+### 5.3. Saída do Terminal (Output Esperado)
+
+Ao executar a classe `Main` no IntelliJ, a saída reproduzirá perfeitamente a estrutura de chaves e espaçamentos de um arquivo `.json` válido:
+
+```text
+=== TESTANDO SERIALIZAÇÃO MANUAL E HIGIENIZAÇÃO JSON ===
+
+JSON Gerado com Sucesso:
+  {
+    "id": 1,
+    "description": "Estudar Java com \"foco\"\nUrgente!",
+    "status": "todo",
+    "createdAt": "2026-05-28 14:00:00",
+    "updatedAt": "2026-05-28 14:30:00"
+  }
+
+=======================================================
+Process finished with exit code 0
+
+```
+
+#### Análise Crítica da Saída:
+
+1. **Validação das Aspas:** Note que na linha do `"description"`, as aspas que cercam a palavra `\"foco\"` aparecem acompanhadas da barra invertida. Isso garante que qualquer leitor de JSON posterior compreenda que aquelas aspas pertencem ao texto, e não ao fechamento do campo do JSON.
+2. **Preservação do Layout:** Os recuos de dois espaços (`  `) e as quebras de linha (`\n`) configurados dentro do `String.format()` montaram um bloco identado limpo, provando que a serialização manual cumpre com rigor a estética padrão do formato de dados JSON.
 
 ---
 
