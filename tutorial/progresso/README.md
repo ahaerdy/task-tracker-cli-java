@@ -50,11 +50,9 @@ public class Task {
  [Modificadores]       ───> public static final
 ```
 
-Perfeito, Arthur. Entendi o contexto. Como se trata de um tutorial passo a passo, a transição para o código de teste (`Main.java`) precisa ser fluida, mostrando primeiro a aplicação prática da teoria e, logo em seguida, o impacto visual (o output).
+---
 
-Aqui está a continuação estruturada para o seu tutorial, mantendo exatamente o mesmo padrão didático, os comentários inline e o diagrama de fluxo que você usou no Passo 2:
-
-### 2. Testando a Eestrutura: Main.java
+### 2. Testando a Estrutura: Main.java
 
 Para garantir que a nossa constante de formatação está funcionando corretamente antes de avançarmos para as regras de negócio das tarefas, criamos uma classe de teste temporária. A `Main.java` servirá para validar o comportamento do `FORMATTER` acessando-o diretamente, sem a necessidade de instanciar a classe `Task`.
 
@@ -74,7 +72,7 @@ public class Main {
         // armazenando o resultado na variável 'agora' do tipo LocalDateTime
         java.time.LocalDateTime agora = java.time.LocalDateTime.now();
 
-        // Imprime o objeto de data bruto no padrão ISO-8601 (ex: 2026-05-28T14:15:22.123456)
+        // Imprime o objeto de data bruto no padrão ISO-8601 (ex: 2026-05-28T14:18:30.923079581)
         // Útil para contrastar a diferença entre a data nativa do Java e a versão que será formatada abaixo
         System.out.println("Data e Hora atuais no formato bruto: " + agora);
 
@@ -83,39 +81,45 @@ public class Main {
         String dataFormatada = agora.format(Task.FORMATTER);
 
         // Exibe no terminal o texto final já devidamente formatado para o usuário
-        System.out.println("Data e Hora atual formatada: " + dataFormatada);
+        System.out.println("Data e Hora atuais formatadas: " + dataFormatada);
     }
 }
 
 ```
 
-`Task.FORMATTER`: Demonstra o poder do modificador `static`. A `Main` consegue ler a constante diretamente apontando para a classe dona do recurso.
-`agora.format(...)`: O método recebe o molde imutável que criamos e lapida os dados brutos do relógio do sistema.
+* `Task.FORMATTER`: Demonstra o poder do modificador `static`. A `Main` consegue ler a constante diretamente apontando para a classe dona do recurso.
+* `System.out.println("... formato bruto: " + agora)`: Exibe o estado nativo do objeto de tempo do Java, expondo o separador padrão `T` e frações de segundos.
+* `agora.format(...)`: O método recebe o molde imutável que criamos e lapida os dados brutos do relógio do sistema.
 
 **Anatomia da Execução na Main:**
 
 ```text
-[Relógio do Sistema] ───> java.time.LocalDateTime.now() (Data/Hora Bruta)
-                                      │
-                                      ▼ (Passa pelo filtro...)
-                                      │
-[Filtro de Destino]  ───> Task.FORMATTER ("yyyy-MM-dd HH:mm:ss")
-                                      │
-                                      ▼ (Gera o resultado lapidado)
-                                      │
-[Saída Convertida]   ───> "2026-05-28 13:53:32" (String pronta para o terminal)
+                       ┌───> [Nativo ISO-8601] ──> 2026-05-28T14:18:30.923079581
+                       │
+[Relógio do Sistema] ──┼─> java.time.LocalDateTime.now() (Data/Hora Bruta)
+                       │
+                       └───> (Passa pelo filtro...)
+                                     │
+[Filtro de Destino]  ───────> Task.FORMATTER ("yyyy-MM-dd HH:mm:ss")
+                                     │
+                                     ▼ (Gera o resultado lapidado)
+                                     │
+[Saída Convertida]   ───────> "2026-05-28 14:18:30" (String pronta para o terminal)
 
 ```
 
+---
+
 ### 3. Saída do Terminal (Output)
 
-Ao compilar e executar o código acima, o resultado exibido no seu console será o seguinte:
+Ao compilar e executar o código acima no IntelliJ, o resultado exibido no seu console será o seguinte:
 
 ```text
-/usr/lib/jvm/default-java/bin/java -javaagent:/snap/intellij-idea-community/762/lib/idea_rt.jar=35351 -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath /home/arthur/Downloads/Projetos/task-tracker/task-tracker/out/production/task-tracker tasktracker.Main
+/usr/lib/jvm/default-java/bin/java -javaagent:/snap/intellij-idea-community/762/lib/idea_rt.jar=40847 -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath /home/arthur/Downloads/Projetos/task-tracker/task-tracker/out/production/task-tracker tasktracker.Main
 
-Instância do Formatar: Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 'Value(HourOfDay,2)':'Value(MinuteOfHour,2)':'Value(SecondOfMinute,2)
-Data e Hora atual formatada: 2026-05-28 13:30:27
+Instância do Formatador: Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 'Value(HourOfDay,2)':'Value(MinuteOfHour,2)':'Value(SecondOfMinute,2)
+Data e Hora atuais no formato bruto: 2026-05-28T14:18:30.923079581
+Data e Hora atuais formatadas: 2026-05-28 14:18:30
 
 Process finished with exit code 0
 
@@ -123,14 +127,14 @@ Process finished with exit code 0
 
 #### 3.1. Decodificando a Saída do Console
 
-Quando executamos o `System.out.println(Task.FORMATTER);`, o Java expõe as entranhas do objeto. Em vez de uma string simples, ele imprime a **árvore de regras estruturais** que montamos através da máscara. Veja o que cada elemento daquela linha complexa significa na prática:
+Quando executamos o `System.out.println(Task.FORMATTER);`, o Java expõe as entranhas do objeto. Em vez de uma string simples, ele imprime a **árvore de regras estruturais** que montamos através da máscara.
+
+A saída no console é uma String gerada automaticamente pelo método `.toString()` interno do objeto `DateTimeFormatter`. Veja o que cada elemento significa na prática:
 
 ```text
 Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 'Value(HourOfDay,2)':'Value(MinuteOfHour,2)':'Value(SecondOfMinute,2)
 
 ```
-
-A saída visualizada no console é uma String, mas ela representa a conversão textual da estrutura interna do objeto `DateTimeFormatter` feita pelo método `.toString()`. Vejamos cada parte:
 
 * **`Value(YearOfEra,4,19,EXCEEDS_PAD)`** ──> Representa o padrão **`yyyy`** (Ano).
 * *`YearOfEra`*: Indica que o cálculo adota a era atual (D.C.).
@@ -146,11 +150,17 @@ A saída visualizada no console é uma String, mas ela representa a conversão t
 * **`Value(MinuteOfHour,2)`** ──> Representa o padrão **`mm`** (Minutos com 2 dígitos).
 * **`Value(SecondOfMinute,2)`** ──> Representa o padrão **`ss`** (Segundos com 2 dígitos).
 
-#### 3.2. Ciclo de Encerramento
+#### 3.2. Formato Bruto vs Formato Lapidado
 
-* **`Data e Hora atual formatada: 2026-05-28 13:30:27`**
-Este é o output real do processamento. Toda a mecânica descrita na árvore de regras acima serviu de fôrma para receber os dados brutos do sistema operacional e devolvê-los nesta linha de texto perfeitamente legível.
+* **`Data e Hora atuais no formato bruto: 2026-05-28T14:18:30.923079581`**
+Esta linha exibe o comportamento nativo do Java (ISO-8601). O caractere `T` separa rigidamente a data do horário, e o valor termina com a precisão máxima de nanossegundos do sistema operacional. Embora ideal para persistência em bancos de dados, é um formato poluído para telas de linha de comando.
+* **`Data e Hora atuais formatadas: 2026-05-28 14:18:30`**
+Este é o output real do processamento do nosso `FORMATTER`. Toda a mecânica descrita na árvore de regras serviu de fôrma para capturar os dados brutos e limpá-los, gerando uma linha de texto perfeitamente legível e padronizada.
 
+#### 3.3. Ciclo de Encerramento
+
+* **`Process finished with exit code 0`**
+A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java executou todas as instruções da classe `Main`, da primeira à última linha, e foi encerrada com sucesso total, sem disparar exceções (`Exception`) ou travar a execução do sistema.
 
 > 💡 **Nota:** Repare que a primeira linha do output exibe a estrutura interna (o "esqueleto" técnico) que o Java criou para o `DateTimeFormatter`. Já a segunda linha exibe o resultado real do processamento, transformando dados complexos de tempo em texto perfeitamente legível.
 
