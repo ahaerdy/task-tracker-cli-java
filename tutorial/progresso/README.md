@@ -1,6 +1,6 @@
 ## Progresso - Task Tracker CLI (Java)
 
-### Fase: Passo 2 — Criando o Modelo: `Task.java`
+### Passo 2 — Criando o Modelo: `Task.java`
 
 Nesta etapa, construímos o modelo de dados que serve como alicerce do projeto. A classe `Task` define o comportamento e a estrutura de uma tarefa na memória, além de possuir os mecanismos para se auto-converter em texto JSON e exibir-se de forma organizada no terminal.
 
@@ -559,7 +559,7 @@ Process finished with exit code 0
 
 ---
 
-### Fase: Passo 3 — Testando o Modelo `Task.java`
+### Passo 3 — Testando o Modelo `Task.java`
 
 Nesta etapa, criamos um ponto de entrada temporário para o programa através da classe `Main.java`. O objetivo é executar testes unitários manuais no console para estressar os métodos da classe `Task` (instanciação, encapsulamento, atualização automática de timestamps e escape de caracteres no JSON).
 
