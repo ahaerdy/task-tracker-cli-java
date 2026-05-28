@@ -523,11 +523,11 @@ O segredo do método está nos sinalizadores de largura estática. O Java calcul
 
 ```text
  Máscara:  "[%d] %-45s | Status: %-12s | ..."
-            │   │          │         │
-            │   │          │         └─> Reserva 12 espaços alinhados à esquerda
-            │   │          └───────────> Caractere delimitador (Barra estática)
-            │   └──────────────────────> Reserva 45 espaços alinhados à esquerda
-            └──────────────────────────> ID dinâmico em colchetes
+             │     │   │           │
+             │     │   │           └──────> Reserva 12 espaços alinhados à esquerda
+             │     │   └──────────────────> Caractere delimitador (Barra estática)
+             │     └──────────────────────> Reserva 45 espaços alinhados à esquerda
+             └────────────────────────────> ID dinâmico em colchetes
 
  Na prática para a Tarefa 1:
  "Comprar café" (11 letras) + 34 espaços em branco gerados automaticamente = Coluna de 45 caracteres.
