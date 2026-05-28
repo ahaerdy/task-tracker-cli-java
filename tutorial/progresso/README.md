@@ -126,6 +126,8 @@ Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 
 
 ```
 
+A saída visualizada no console é uma String, mas ela representa a conversão textual da estrutura interna do objeto `DateTimeFormatter` feita pelo método `.toString()`. Vejamos cada parte:
+
 * **`Value(YearOfEra,4,19,EXCEEDS_PAD)`** ──> Representa o padrão **`yyyy`** (Ano).
 * *`YearOfEra`*: Indica que o cálculo adota a era atual (D.C.).
 * *`4`*: Define o preenchimento visual padrão para 4 dígitos (ex: `2026`).
