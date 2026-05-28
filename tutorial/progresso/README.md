@@ -543,8 +543,8 @@ Ao executar a classe `Main` no IntelliJ, veja como o caractere pipe (`|`) se com
 ```text
 === TESTANDO ALINHAMENTO DE COLUNAS NO TERMINAL (toString) ===
 
-[1] Comprar café                                  | Status: todo         | Criado: 2026-05-28 15:00:00 | Atualizado: 2026-05-28 15:00:00
-[2] Estudar estrutura de dados e coleções em Java | Status: in-progress  | Criado: 2026-05-28 15:10:00 | Atualizado: 2026-05-28 15:40:00
+[1] Comprar café                                   | Status: todo         | Criado: 2026-05-28 15:00:00 | Atualizado: 2026-05-28 15:00:00
+[2] Estudar estrutura de dados e coleções em Java  | Status: in-progress  | Criado: 2026-05-28 15:10:00 | Atualizado: 2026-05-28 15:40:00
 [105] Configurar Docker Compose                    | Status: done         | Criado: 2026-05-28 10:00:00 | Atualizado: 2026-05-28 11:15:00
 
 ==============================================================
