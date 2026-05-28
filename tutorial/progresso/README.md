@@ -12,7 +12,8 @@ Nesta etapa, construímos o modelo de dados que serve como alicerce do projeto. 
 package tasktracker;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;  // Importa a classe DateTimeFormatter, responsável por definir e aplicar máscaras de leitura e escrita em datas
+import java.time.format.DateTimeFormatter;  // Importa a classe DateTimeFormatter, responsável por 
+                                            // definir e aplicar máscaras de leitura e escrita em datas
 
 public class Task {
 
