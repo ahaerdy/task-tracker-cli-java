@@ -117,6 +117,36 @@ Process finished with exit code 0
 
 ```
 
+#### 3.1. Decodificando a Saída do Console
+
+Quando executamos o `System.out.println(Task.FORMATTER);`, o Java expõe as entranhas do objeto. Em vez de uma string simples, ele imprime a **árvore de regras estruturais** que montamos através da máscara. Veja o que cada elemento daquela linha complexa significa na prática:
+
+```text
+Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 'Value(HourOfDay,2)':'Value(MinuteOfHour,2)':'Value(SecondOfMinute,2)
+
+```
+
+* **`Value(YearOfEra,4,19,EXCEEDS_PAD)`** ──> Representa o padrão **`yyyy`** (Ano).
+* *`YearOfEra`*: Indica que o cálculo adota a era atual (D.C.).
+* *`4`*: Define o preenchimento visual padrão para 4 dígitos (ex: `2026`).
+* *`19`*: É o limite máximo de caracteres suportado internamente pelo Java para este campo.
+* *`EXCEEDS_PAD`*: Política de segurança. Se o ano ultrapassar 4 dígitos no futuro (ex: ano `12026`), o Java expandirá o tamanho automaticamente para não truncar a informação.
+
+
+* **`'-'` , `' '` , `':'**` ──> São os **caracteres literais** isolados em aspas simples. Eles agem como separadores estáticos idênticos aos que digitamos na máscara.
+* **`Value(MonthOfYear,2)`** ──> Representa o padrão **`MM`** (Mês com 2 dígitos fixos).
+* **`Value(DayOfMonth,2)`** ──> Representa o padrão **`dd`** (Dia com 2 dígitos fixos).
+* **`Value(HourOfDay,2)`** ──> Representa o padrão **`HH`** (Hora no formato de ciclo 24h, com 2 dígitos).
+* **`Value(MinuteOfHour,2)`** ──> Representa o padrão **`mm`** (Minutos com 2 dígitos).
+* **`Value(SecondOfMinute,2)`** ──> Representa o padrão **`ss`** (Segundos com 2 dígitos).
+
+#### 3.2. Ciclo de Encerramento
+
+* **`Data e Hora atual formatada: 2026-05-28 13:30:27`**
+Este é o output real do processamento. Toda a mecânica descrita na árvore de regras acima serviu de fôrma para receber os dados brutos do sistema operacional e devolvê-los nesta linha de texto perfeitamente legível.
+* **`Process finished with exit code 0`**
+A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java executou todas as instruções da classe `Main`, da primeira à última linha, e foi encerrada sem disparar erros ou travar o sistema. O código `0` indica sucesso total.
+
 > 💡 **Nota:** Repare que a primeira linha do output exibe a estrutura interna (o "esqueleto" técnico) que o Java criou para o `DateTimeFormatter`. Já a segunda linha exibe o resultado real do processamento, transformando dados complexos de tempo em texto perfeitamente legível.
 
 ---
