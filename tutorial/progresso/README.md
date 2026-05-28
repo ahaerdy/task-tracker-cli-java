@@ -52,6 +52,75 @@ public class Task {
  [Modificadores]       ───> public static final
 ```
 
+Perfeito, Arthur. Entendi o contexto. Como se trata de um tutorial passo a passo, a transição para o código de teste (`Main.java`) precisa ser fluida, mostrando primeiro a aplicação prática da teoria e, logo em seguida, o impacto visual (o output).
+
+Aqui está a continuação estruturada para o seu tutorial, mantendo exatamente o mesmo padrão didático, os comentários inline e o diagrama de fluxo que você usou no Passo 2:
+
+---
+
+### 2. Testando a Eestrutura: Main.java
+
+Para garantir que a nossa constante de formatação está funcionando corretamente antes de avançarmos para as regras de negócio das tarefas, criamos uma classe de teste temporária. A `Main.java` servirá para validar o comportamento do `FORMATTER` acessando-o diretamente, sem a necessidade de instanciar a classe `Task`.
+
+```java
+package tasktracker; // Define que esta classe pertence ao mesmo pacote que a classe Task
+
+public class Main {
+    // Método principal: é a porta de entrada do programa (onde a execução começa)
+    public static void main(String[] args) {
+        
+        // Task.FORMATTER: Acessa a constante estática diretamente pelo nome da classe "Task"
+        // Sem o modificador 'static', seríamos obrigados a fazer 'new Task().FORMATTER'
+        // System.out.println: Imprime no terminal a representação textual interna do objeto formatador
+        System.out.println("Instância do Formatador: " + Task.FORMATTER);
+
+        // java.time.LocalDateTime.now(): Captura a data e o horário exato do sistema neste instante
+        // armazenando o resultado na variável 'agora' do tipo LocalDateTime
+        java.time.LocalDateTime agora = java.time.LocalDateTime.now();
+        
+        // agora.format(...): Aplica a máscara da nossa constante sobre o objeto de data atual
+        // O Java processa o LocalDateTime e devolve uma String organizada no padrão "yyyy-MM-dd HH:mm:ss"
+        String dataFormatada = agora.format(Task.FORMATTER);
+
+        // Exibe no terminal o texto final já devidamente formatado para o usuário
+        System.out.println("Data e Hora atual formatada: " + dataFormatada);
+    }
+}
+
+```
+
+`Task.FORMATTER`: Demonstra o poder do modificador `static`. A `Main` consegue ler a constante diretamente apontando para a classe dona do recurso.
+`agora.format(...)`: O método recebe o molde imutável que criamos e lapida os dados brutos do relógio do sistema.
+
+**Anatomia da Execução na Main:**
+
+```text
+[Relógio do Sistema] ───> java.time.LocalDateTime.now() (Data/Hora Bruta)
+                                      │
+                                      ▼ (Passa pelo filtro...)
+                                      │
+[Filtro de Destino]  ───> Task.FORMATTER ("yyyy-MM-dd HH:mm:ss")
+                                      │
+                                      ▼ (Gera o resultado lapidado)
+                                      │
+[Saída Convertida]   ───> "2026-05-28 13:53:32" (String pronta para o terminal)
+
+```
+
+---
+
+### 3. Saída do Terminal (Output)
+
+Ao compilar e executar o código acima, o resultado exibido no seu console será o seguinte:
+
+```text
+Instância do Formatador: ParseCaseSensitive(Strict).Value(Year,4).Literal('-').Value(MonthOfYear,2).Literal('-').Value(DayOfMonth,2).Literal(' ').Value(HourOfDay,2).Literal(':').Value(MinuteOfHour,2).Literal(':').Value(SecondOfMinute,2)
+Data e Hora atual formatada: 2026-05-28 13:53:32
+
+```
+
+> 💡 **Nota:** Repare que a primeira linha do output exibe a estrutura interna (o "esqueleto" técnico) que o Java criou para o `DateTimeFormatter`. Já a segunda linha exibe o resultado real do processamento, transformando dados complexos de tempo em texto perfeitamente legível.
+
 ---
 
 ### 2. Atributos Privados (Campos de Dados)
