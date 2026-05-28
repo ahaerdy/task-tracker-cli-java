@@ -1,10 +1,8 @@
-# Fundamentos
-
-## Passo 2 — Criando o Modelo: `Task.java`
+# Fundamentos do Passo 2 — Criando o Modelo: `Task.java`
 
 Nesta etapa, construímos o modelo de dados que serve como alicerce do projeto. A classe `Task` define o comportamento e a estrutura de uma tarefa na memória, além de possuir os mecanismos para se auto-converter em texto JSON e exibir-se de forma organizada no terminal.
 
-### 1. Estrutura Inicial e a Constante de Formatação
+## 1. Estrutura Inicial e a Constante de Formatação
 
 ```java
 package tasktracker;
@@ -32,7 +30,7 @@ public class Task {
 * **`import`**: Importa a biblioteca de tempo do Java.
 * **`public static final DateTimeFormatter FORMATTER`**: Cria uma constante universal acessível por todo o projeto. Ela define a "máscara" visual (`yyyy-MM-dd HH:mm:ss`) para que as datas fiquem fáceis de ler por humanos, impedindo o formato bruto do Java (ex: `2026-05-27T19:10:19`).
 
-#### Anatomia da Declaração:
+### Anatomia da Declaração:
 
 ```plaintext
 [O que o Java executa] ───> DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -121,7 +119,7 @@ Process finished with exit code 0
 
 ```
 
-### 1.3.1. Decodificando a Saída do Console
+#### 1.3.1. Decodificando a Saída do Console
 
 Quando executamos o `System.out.println(Task.FORMATTER);`, o Java expõe as entranhas do objeto. Em vez de uma string simples, ele imprime a **árvore de regras estruturais** que montamos através da máscara.
 
@@ -146,14 +144,14 @@ Value(YearOfEra,4,19,EXCEEDS_PAD)'-'Value(MonthOfYear,2)'-'Value(DayOfMonth,2)' 
 * **`Value(MinuteOfHour,2)`** ──> Representa o padrão **`mm`** (Minutos com 2 dígitos).
 * **`Value(SecondOfMinute,2)`** ──> Representa o padrão **`ss`** (Segundos com 2 dígitos).
 
-### 1.3.2. Formato Bruto vs Formato Lapidado
+#### 1.3.2. Formato Bruto vs Formato Lapidado
 
 * **`Data e Hora atuais no formato bruto: 2026-05-28T14:18:30.923079581`**
 Esta linha exibe o comportamento nativo do Java (ISO-8601). O caractere `T` separa rigidamente a data do horário, e o valor termina com a precisão máxima de nanossegundos do sistema operacional. Embora ideal para persistência em bancos de dados, é um formato poluído para telas de linha de comando.
 * **`Data e Hora atuais formatadas: 2026-05-28 14:18:30`**
 Este é o output real do processamento do nosso `FORMATTER`. Toda a mecânica descrita na árvore de regras serviu de fôrma para capturar os dados brutos e limpá-los, gerando uma linha de texto perfeitamente legível e padronizada.
 
-### 1.3.3. Ciclo de Encerramento
+#### 1.3.3. Ciclo de Encerramento
 
 * **`Process finished with exit code 0`**
 A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java executou todas as instruções da classe `Main`, da primeira à última linha, e foi encerrada com sucesso total, sem disparar exceções (`Exception`) ou travar a execução do sistema.
@@ -162,7 +160,7 @@ A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java ex
 
 ---
 
-### 2. Atributos Privados (Campos de Dados)
+## 2. Atributos Privados (Campos de Dados)
 
 ```java
     private int id;
@@ -179,11 +177,11 @@ A confirmação do ambiente de desenvolvimento de que a Máquina Virtual Java ex
 
 ---
 
-### 3. Sobrecarga de Construtores (Polimorfismo)
+## 3. Sobrecarga de Construtores (Polimorfismo)
 
 O Java permite definir mais de um construtor para a mesma classe, desde que eles recebam parâmetros diferentes. Isso se chama **Sobrecarga**.
 
-#### Construtor 1: Para NOVAS tarefas
+### Construtor 1: Para NOVAS tarefas
 
 ```java
     public Task(int id, String description) {
@@ -200,7 +198,7 @@ O Java permite definir mais de um construtor para a mesma classe, desde que eles
 * **Utilidade**: Usado quando o usuário digita um comando para criar uma tarefa inédita no sistema.
 * **Lógica**: O status é forçado para `"todo"`. O sistema captura o instante exato com `LocalDateTime.now()`, aplica a máscara e salva a `String` resultante tanto em `createdAt` quanto em `updatedAt`.
 
-#### Construtor 2: Para carregar tarefas EXISTENTES do JSON
+### Construtor 2: Para carregar tarefas EXISTENTES do JSON
 
 ```java
     public Task(int id, String description, String status,
@@ -219,7 +217,7 @@ O Java permite definir mais de um construtor para a mesma classe, desde que eles
 
 ---
 
-### 4. Métodos de Acesso (Getters e Setters)
+## 4. Métodos de Acesso (Getters e Setters)
 
 ```java
     public int getId()           { return id; }
@@ -249,7 +247,7 @@ O Java permite definir mais de um construtor para a mesma classe, desde que eles
 
 ---
 
-### 5. Mecanismo de Serialização JSON Manual
+## 5. Mecanismo de Serialização JSON Manual
 
 Como não utilizaremos bibliotecas externas (como Jackson ou Gson), a própria classe `Task` deve traduzir PARA o formato JSON usando manipulação nativa de Strings.
 
@@ -276,7 +274,7 @@ Como não utilizaremos bibliotecas externas (como Jackson ou Gson), a própria c
 * **`String.format()`**: Funciona como um template. Os marcadores (`%d` para inteiros, `%s` para textos/Strings) são substituídos na ordem pelas variáveis passadas após a vírgula.
 * **`\n` e `\"**`: Sequências de escape. O `\n` pula linha para deixar o arquivo JSON formatado e legível para humanos, enquanto `\"` permite colocar aspas dentro de uma String sem que o Java ache que a string acabou.
 
-#### Tratamento de Segurança no JSON
+### Tratamento de Segurança no JSON
 
 ```java
     private String escaparJson(String texto) {
@@ -431,7 +429,7 @@ Process finished with exit code 0
 
 ---
 
-### 6. Exibição Formatada no Terminal (`toString`)
+## 6. Exibição Formatada no Terminal (`toString`)
 
 ```java
     @Override
