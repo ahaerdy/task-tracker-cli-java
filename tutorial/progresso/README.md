@@ -12,12 +12,21 @@ Nesta etapa, construímos o modelo de dados que serve como alicerce do projeto. 
 package tasktracker;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+// Importa a classe responsável por definir e aplicar máscaras de leitura e escrita em datas
+import java.time.format.DateTimeFormatter; 
 
 public class Task {
 
+    // public:    Acessível por qualquer outra classe do projeto (ex: Main.java)
+    // static:    Pertence à classe Task; existe apenas uma instância na memória para todo o app
+    // final:     É uma constante; o valor não pode ser alterado após definido
+    // FORMATTER: Nome da constante (em maiúsculas por convenção do Java)
     public static final DateTimeFormatter FORMATTER =
+            // .ofPattern: Método que constrói o formatador baseado na máscara fornecida:
+            // yyyy: Ano (4 dígitos) | MM: Mês (2 dígitos) | dd: Dia (2 dígitos)
+            // HH: Hora 24h (2 dígitos) | mm: Minutos (2 dígitos) | ss: Segundos (2 dígitos)
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+}
 
 ```
 
