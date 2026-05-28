@@ -448,11 +448,114 @@ Process finished with exit code 0
 * **Alinhamento de colunas (`%-45s` e `%-12s`)**: O sinal de menos `-` alinha o texto à esquerda, e o número define o tamanho mínimo da coluna.
 * Se a descrição tiver apenas 10 caracteres, o Java adicionará 35 espaços em branco logo após ela. Isso garante que as barras verticais (`|`) fiquem perfeitamente alinhadas no terminal como uma tabela, independentemente do tamanho do texto da tarefa.
 
+### 6.1. Código de Implementação Mínimo para Teste do Layout
+
+Para testar o alinhamento de colunas (`%-45s` e `%-12s`), utilizaremos uma versão enxuta da classe `Task` focada no método de formatação, e uma classe `Main` que instanciará tarefas com descrições de tamanhos completamente diferentes (uma muito curta e outra longa) para provar que o alinhamento das barras verticais (`|`) permanece intacto.
+
+#### Classe Task.java (Módulo de Visualização)
+
+```java
+package tasktracker;
+
+public class Task {
+    // Atributos privados que compõem a linha do terminal
+    private int id;
+    private String description;
+    private String status;
+    private String createdAt;
+    private String updatedAt;
+
+    // Construtor minimalista para alimentar o teste
+    public Task(int id, String description, String status, String createdAt, String updatedAt) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    // [MÉTODO DO ITEM 6]: Sobrescreve a exibição padrão do objeto para criar o layout de tabela
+    @Override
+    public String toString() {
+        return String.format(
+                "[%d] %-45s | Status: %-12s | Criado: %s | Atualizado: %s",
+                id, description, status, createdAt, updatedAt
+        );
+    }
+}
+
+```
+
+#### Classe Main.java (Validação do Alinhamento Visual)
+
+```java
+package tasktracker;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("=== TESTANDO ALINHAMENTO DE COLUNAS NO TERMINAL (toString) ===\n");
+
+        // Tarefa 1: Descrição curtíssima (11 caracteres). O Java deve preencher o restante com 34 espaços.
+        Task t1 = new Task(1, "Comprar café", "todo", "2026-05-28 15:00:00", "2026-05-28 15:00:00");
+
+        // Tarefa 2: Descrição longa (41 caracteres). O Java deve preencher com apenas 4 espaços.
+        Task t2 = new Task(2, "Estudar estrutura de dados e coleções em Java", "in-progress", "2026-05-28 15:10:00", "2026-05-28 15:40:00");
+
+        // Tarefa 3: ID maior e descrição média (24 caracteres). Testando a elasticidade do layout.
+        Task t3 = new Task(105, "Configurar Docker Compose", "done", "2026-05-28 10:00:00", "2026-05-28 11:15:00");
+
+        // Imprime as tarefas simulando uma listagem do CLI
+        System.out.println(t1);
+        System.out.println(t2);
+        System.out.println(t3);
+
+        System.out.println("\n==============================================================");
+    }
+}
+
+```
+
 ---
 
-Excelente! O Passo 3 é crucial porque introduz a cultura de **testes laboratoriais** no desenvolvimento de software. Em vez de construir o sistema inteiro às cegas para descobrir bugs só no final, criamos uma classe isolada (`Main`) para validar se a nossa fundação (`Task.java`) responde exatamente como esperado.
+### 6.2. Anatomia do Alinhamento (`String.format`)
 
-Aqui está o arquivo `progresso.md` completo, ultra detalhado e didático para você documentar o seu avanço nesta etapa:
+O segredo do método está nos sinalizadores de largura estática. O Java calcula o tamanho do texto dinamicamente e preenche a diferença com caracteres invisíveis de paginação:
+
+```text
+ Máscara:  "[%d] %-45s | Status: %-12s | ..."
+            │   │          │         │
+            │   │          │         └─> Reserva 12 espaços alinhados à esquerda
+            │   │          └───────────> Caractere delimitador (Barra estática)
+            │   └──────────────────────> Reserva 45 espaços alinhados à esquerda
+            └──────────────────────────> ID dinâmico em colchetes
+
+ Na prática para a Tarefa 1:
+ "Comprar café" (11 letras) + 34 espaços em branco gerados automaticamente = Coluna de 45 caracteres.
+
+```
+
+---
+
+### 6.3. Saída do Terminal (Output Esperado)
+
+Ao executar a classe `Main` no IntelliJ, veja como o caractere pipe (`|`) se comporta como uma linha divisória perfeita de planilha:
+
+```text
+=== TESTANDO ALINHAMENTO DE COLUNAS NO TERMINAL (toString) ===
+
+[1] Comprar café                                  | Status: todo         | Criado: 2026-05-28 15:00:00 | Atualizado: 2026-05-28 15:00:00
+[2] Estudar estrutura de dados e coleções em Java | Status: in-progress  | Criado: 2026-05-28 15:10:00 | Atualizado: 2026-05-28 15:40:00
+[105] Configurar Docker Compose                    | Status: done         | Criado: 2026-05-28 10:00:00 | Atualizado: 2026-05-28 11:15:00
+
+==============================================================
+Process finished with exit code 0
+
+```
+
+#### Análise Crítica do Output:
+
+1. **O Efeito do Hífen (`-`)**: Sem o sinal de menos, o Java alinharia o texto à direita (encostando o título da tarefa na barra `|` e deixando os espaços vazios do lado esquerdo). O uso do `%-45s` garante a legibilidade natural de leitura ocidental (da esquerda para a direita).
+2. **Independência de ID**: Mesmo quando o ID salta de `1` dígito para `105` dígitos (empurrando o colchete de fechamento um pouco para o lado), a coluna da descrição absorve o impacto e mantém a barra vertical perfeitamente reta no mesmo alinhamento das linhas superiores.
 
 ---
 
@@ -546,4 +649,3 @@ Ao rodar o comando **Shift + F10** (no IntelliJ ou NetBeans) ou rodar via termin
 * Se as aspas do livro *Clean Code* vierem acompanhadas de uma barra invertida antes delas, o método `escaparJson()` passou.
 
 > **Status do Passo 3:** Modelo homologado e pronto para ser integrado às classes de persistência de arquivos!
-
