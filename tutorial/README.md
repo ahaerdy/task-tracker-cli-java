@@ -337,7 +337,7 @@ Agora criamos a classe responsável por **ler e salvar** as tarefas no arquivo `
 Como não podemos usar bibliotecas externas, vamos usar **expressões regulares (regex)** para fazer o parsing do JSON manualmente.
 
 > 🧪 **Fundamentos:**
-> Antes de aplicar o código abaixo, você pode conferir a análise detalhada da sintaxe, testes isolados e a anatomia das engrenagens deste módulo no guia de [Fundamentos do Passo 4](./fundamentos/passo_2).
+> Antes de aplicar o código abaixo, você pode conferir a análise detalhada da sintaxe, testes isolados e a anatomia das engrenagens deste módulo no guia de [Fundamentos do Passo 4](./fundamentos/passo_4).
 
 ### 4.1 Criando o arquivo
 
