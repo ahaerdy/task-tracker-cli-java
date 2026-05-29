@@ -835,6 +835,12 @@ task-cli list
 
 ---
 
+## 🚀 Tutorial Passo a Passo
+
+Para acompanhar o desenvolvimento deste projeto do zero e entender toda a sua arquitetura de forma incremental, acesse o **[Tutorial Passo a Passo](./tutorial)**. O guia está dividido em etapas estruturadas com explicações detalhadas de cada engrenagem do código.
+
+---
+
 ## Conceitos Java Utilizados
 
 | Conceito | Onde Foi Aplicado |
