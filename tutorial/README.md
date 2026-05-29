@@ -1358,7 +1358,7 @@ function task-cli { java -jar "C:\caminho\completo\task-tracker.jar" @args }
 
 ---
 
-## Parabéns! 🎉
+## Finalizando
 
 Você construiu um CLI completo em Java puro que:
 
