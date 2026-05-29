@@ -1713,4 +1713,4 @@ Process finished with exit code 0
                         para cada bloco
 ```
 
-> 💡 **Próximo passo:** Com o `JsonHandler` dominado, avance para o [Passo 5](../passo_5) — onde testaremos a persistência completa integrada com o `TaskManager`, realizando operações reais de add, update e delete que escrevem e leem do arquivo automaticamente.
+---
