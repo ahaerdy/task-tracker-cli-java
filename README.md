@@ -20,7 +20,7 @@ Sem bibliotecas ou frameworks externos — apenas a Biblioteca Padrão do Java.
 - [Explicação do Código](#explicação-do-código)
 - [Tratamento de Erros](#tratamento-de-erros)
 - [Testes](#testes)
-- [Tutorial Passo a Passo do Projeto](#tutorial)
+- [Tutorial Passo a Passo do Projeto](#tutorial-passo-a-passo-do-projeto)
 
 ---
 
@@ -868,3 +868,5 @@ Para acompanhar o desenvolvimento deste projeto do zero e entender toda a sua ar
 
 Este projeto foi desenvolvido como exercício de aprendizado para o [desafio Task Tracker do roadmap.sh](https://roadmap.sh/projects/task-tracker).
 Sinta-se à vontade para usar, modificar e compartilhar livremente.
+
+[def]: #tutorial
