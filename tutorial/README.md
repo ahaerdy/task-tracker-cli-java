@@ -336,6 +336,9 @@ Atualizado em: 2024-01-15 09:10:00
 Agora criamos a classe responsável por **ler e salvar** as tarefas no arquivo `tasks.json`.
 Como não podemos usar bibliotecas externas, vamos usar **expressões regulares (regex)** para fazer o parsing do JSON manualmente.
 
+> 🧪 **Fundamentos:**
+> Antes de aplicar o código abaixo, você pode conferir a análise detalhada da sintaxe, testes isolados e a anatomia das engrenagens deste módulo no guia de [Fundamentos do Passo 4](./fundamentos/passo_2).
+
 ### 4.1 Criando o arquivo
 
 1. Clique com o botão direito em `tasktracker` → **New → Java Class**
