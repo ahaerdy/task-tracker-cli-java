@@ -20,6 +20,7 @@ Sem bibliotecas ou frameworks externos — apenas a Biblioteca Padrão do Java.
 - [Explicação do Código](#explicação-do-código)
 - [Tratamento de Erros](#tratamento-de-erros)
 - [Testes](#testes)
+- [Tutorial Passo a Passo do Projeto](#tutorial)
 
 ---
 
@@ -835,7 +836,7 @@ task-cli list
 
 ---
 
-## 🚀 Tutorial Passo a Passo
+## Tutorial Passo a Passo do Projeto
 
 Para acompanhar o desenvolvimento deste projeto do zero e entender toda a sua arquitetura de forma incremental, acesse o **[Tutorial Passo a Passo](./tutorial)**. O guia está dividido em etapas estruturadas com explicações detalhadas de cada engrenagem do código.
 
